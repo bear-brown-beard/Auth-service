@@ -1,23 +1,27 @@
 package database
 
 import (
-    "database/sql"
-    _ "github.com/lib/pq"
-    "log"
+	"database/sql"
+	"fmt"
+	"log"
+
+	_ "github.com/lib/pq"
 )
 
 var DB *sql.DB
 
-func InitDB(dataSourceName string) {
-    var err error
-    DB, err = sql.Open("postgres", dataSourceName)
-    if err != nil {
-        log.Fatalf("Error opening database: %v\n", err)
-    }
+func InitDB(dsn string) error {
+	var err error
+	DB, err = sql.Open("postgres", dsn)
+	if err != nil {
+		return fmt.Errorf("error opening DB: %w", err)
+	}
 
-    if err = DB.Ping(); err != nil {
-        log.Fatalf("Error connecting to the database: %v\n", err)
-    }
+	err = DB.Ping()
+	if err != nil {
+		return fmt.Errorf("error pinging DB: %w", err)
+	}
 
-    log.Println("Database connection established.")
+	log.Println("Successfully connected to database")
+	return nil
 }
