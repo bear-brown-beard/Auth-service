@@ -61,7 +61,6 @@ func (s *authService) Login(ctx context.Context, email, password string) (string
 		return "", models.ErrInvalidCredentials
 	}
 
-	// Create JWT token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": email,
 		"exp":   time.Now().Add(time.Hour * 24).Unix(), // Token expires in 24 hours
