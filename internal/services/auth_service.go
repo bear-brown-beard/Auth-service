@@ -44,7 +44,6 @@ func (s *authService) Register(ctx context.Context, user *models.User) error {
 	return s.userRepository.CreateUser(ctx, user)
 }
 
-// Login verifies user credentials and returns JWT token
 func (s *authService) Login(ctx context.Context, email, password string) (string, error) {
 	// Get user from database
 	user, err := s.userRepository.GetUserByEmail(ctx, email)
